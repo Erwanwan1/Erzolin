@@ -22,7 +22,7 @@ public class Directeur {
     @Column(name="dir_nom")
     private String nom;
 
-    @Column(name="vdir_prenom")
+    @Column(name="dir_prenom")
     private String prenom;
 
     @Column(name="dir_email")

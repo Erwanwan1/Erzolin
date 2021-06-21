@@ -27,7 +27,7 @@ public class Vente {
     private String numero;
 
     @Column(name="vet_dateFactu")
-    private Date dateFacturatiob;
+    private Date dateFacturation;
 
     @ManyToOne()
     @JoinColumn(name="reg_id")
