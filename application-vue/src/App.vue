@@ -6,6 +6,7 @@
     color="#972974"
     dark
     fixed
+    v-if="$store.state.isConnected"
     >
       <v-list
       nav
@@ -43,7 +44,7 @@ export default {
 
   data: () => ({
     items: [
-      { title: 'Accueil', icon: 'mdi-home', route: '/' },
+      { title: 'Accueil', icon: 'mdi-home', route: '/home' },
       { title: 'Profil', icon: 'mdi-account', route: '/profil' },
       { title: 'Logout', icon: 'mdi-logout', route: '/logout' }
     ]

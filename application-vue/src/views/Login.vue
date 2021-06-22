@@ -1,18 +1,17 @@
 <template>
   <v-app>
-    <customHeader title='Login'></customHeader>
-
+    <customLogin></customLogin>
   </v-app>
 </template>
 
 <script>
-import customHeader from '../components/CustomHeader.vue'
+import customLogin from '../components/CustomLogin.vue'
 
 export default {
   name: 'Login',
 
   components: {
-    customHeader
+    customLogin
   }
 }
 </script>
