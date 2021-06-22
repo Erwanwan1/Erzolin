@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -25,10 +27,10 @@ public class Directeur {
     @Column(name="dir_prenom")
     private String prenom;
 
-    @Column(name="dir_email")
-    private String email;
-
     @Column(name="dir_mdp", nullable = false)
     private String mdp;
 
+    @OneToOne()
+    @JoinColumn(name="uti_id")
+    private Utilisateur utiReg;
 }

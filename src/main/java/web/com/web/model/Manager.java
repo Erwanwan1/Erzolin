@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -30,12 +31,6 @@ public class Manager {
     @Column(name="man_matricule", nullable = false)
     private String matricule;
 
-    @Column(name="man_email")
-    private String email;
-
-    @Column(name="man_mdp", nullable = false)
-    private String mdp;
-
     @ManyToOne()
     @JoinColumn(name="dir_id")
     private Directeur dirId;
@@ -43,4 +38,8 @@ public class Manager {
     @ManyToOne()
     @JoinColumn(name="reg_id")
     private Region regId;
+    
+    @OneToOne()
+    @JoinColumn(name="uti_id")
+    private Utilisateur utiReg;
 }
