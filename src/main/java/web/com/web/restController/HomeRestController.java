@@ -1,18 +1,23 @@
 package web.com.web.restController;
 
+import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import web.com.web.dao.RegionDao;
 import web.com.web.dao.VendeurDao;
 import web.com.web.dao.VenteDao;
+import web.com.web.model.Filtre;
 import web.com.web.model.Region;
 import web.com.web.model.Vendeur;
 import web.com.web.model.Vente;
@@ -31,9 +36,22 @@ public class HomeRestController {
     @Autowired
     private VendeurDao daoVendeur;
 
-    @GetMapping("")
-    public List<Vente> getListeVentes() {
+    @GetMapping("/directeur")
+    public List<Vente> getListeVentesDirector() {
         return this.daoVente.findAll();
+    }
+    
+    @GetMapping("/manager/{id}")
+    public List<Vente> getListeVentesManager(@PathVariable int id) {
+        List<Vente> ventes = new ArrayList<Vente>();
+
+        for (Vente vente : this.daoVente.findAll()) {
+            if (vente.getRegId().getId() == id) {
+                ventes.add(vente);
+            }
+        }
+
+        return ventes;
     }
 
     @GetMapping("/region")
@@ -47,8 +65,8 @@ public class HomeRestController {
     }
 
     @PostMapping("/filtre")
-    public List<Vente> getListeVentesFiltrer(@RequestBody List<Region> regions, @RequestBody List<Vendeur> vendeurs) {
-        return this.daoVente.findByRegIdAndVenId(0, 0);
+    public List<Vente> getListeVentesFiltrer(@RequestBody Filtre filtres) {
+        return this.daoVente.findByRegIdIdInAndVenIdIdInAndDateFacturationBetween(filtres.getRegions(), filtres.getVendeurs(), filtres.getDateDebut(), filtres.getDateFin());
     }
     
 }

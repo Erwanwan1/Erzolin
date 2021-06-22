@@ -37,9 +37,27 @@ export default {
           })
         }).then(response => response.json())
         .then(data => (this.$store.state.utilisateur = data))
-
-      if (this.$store.state.utilisateur !== {}) {
+        .then(this.rediriger)
+    },
+    getFonction () {
+      return fetch('http://localhost:8080/api/login/fonction',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: this.email,
+            mdp: this.password
+          })
+        }).then(response => response.text())
+        .then(data => (this.$store.state.fonction = data))
+    },
+    async rediriger () {
+      if (Object.keys(this.$store.state.utilisateur).length !== 0) {
         this.$store.state.isConnected = true
+        await this.getFonction()
+        this.$router.replace('/home')
       }
     }
   }

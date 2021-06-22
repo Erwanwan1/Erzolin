@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     utilisateur: {},
-    isConnected: false
+    isConnected: false,
+    fonction: ''
   },
   mutations: {
   },

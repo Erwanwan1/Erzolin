@@ -13,6 +13,11 @@ export default {
 
   components: {
     customHeader
+  },
+  mounted () {
+    this.$store.state.utilisateur = {}
+    this.$store.state.isConnected = false
+    this.$router.push('/')
   }
 }
 </script>

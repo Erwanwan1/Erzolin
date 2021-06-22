@@ -1,5 +1,8 @@
 package web.com.web.restController;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +29,9 @@ public class ProfilRestController {
     }
 
     @PostMapping("")
-    public void saveUtilisateur(@RequestBody Utilisateur utilisateur) {
+    public void saveUtilisateur(@RequestBody Utilisateur utilisateur) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        utilisateur.setMdp(md.digest((utilisateur.getMdp() + "You should mot de passe").getBytes()).toString());
         this.daoUtilisateur.save(utilisateur);
     }
 }

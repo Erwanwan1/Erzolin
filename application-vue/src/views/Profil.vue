@@ -1,7 +1,6 @@
 <template>
   <v-app>
-    <customLogin v-if="!$store.state.isConnected"></customLogin>
-    <div v-else>
+    <div>
       <customHeader title='Profil'></customHeader>
       <v-container>
         <v-card>
@@ -12,6 +11,14 @@
           transition="scale-transition"
         >
           L'utilisateur a été modifié avec succès !
+        </v-alert>
+        <v-alert
+          :value="error"
+          type="error"
+          dismissible
+          transition="scale-transition"
+        >
+          Les mots de passe sont différents ou mauvais !
         </v-alert>
           <v-row
           justify="center"
@@ -56,7 +63,7 @@
               color="#cf2084"
               dark
               class="mb-2"
-              @click="confirm()"
+              @click="validate()"
               >
                 Confirmer
               </v-btn>
@@ -70,14 +77,15 @@
 
 <script>
 import customHeader from '../components/CustomHeader.vue'
-import customLogin from '../components/CustomLogin.vue'
 
 export default {
   name: 'Profil',
 
   components: {
-    customHeader,
-    customLogin
+    customHeader
+  },
+  $_veeValidate: {
+    validator: 'new'
   },
   data: () => ({
     password: '',
@@ -85,6 +93,7 @@ export default {
     show1: false,
     show2: false,
     alert: false,
+    error: false,
     rules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 8 || 'Min 8 characters',
@@ -102,6 +111,14 @@ export default {
           }
         }).then(response => response.json())
         .then(data => (this.utilisateur = data))
+    },
+    validate () {
+      this.error = false
+      if (this.password.length > 7 && this.password === this.confirmPassword) {
+        this.confirm()
+      } else {
+        this.error = true
+      }
     },
     confirm () {
       this.alert = false
@@ -124,6 +141,8 @@ export default {
   mounted () {
     if (this.$store.state.isConnected) {
       this.getUtilisateur()
+    } else {
+      this.$router.push('/')
     }
   }
 }

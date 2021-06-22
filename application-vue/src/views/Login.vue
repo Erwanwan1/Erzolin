@@ -12,6 +12,11 @@ export default {
 
   components: {
     customLogin
+  },
+  mounted () {
+    if (this.$store.state.isConnected) {
+      this.$router.push('/home')
+    }
   }
 }
 </script>

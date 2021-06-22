@@ -1,7 +1,6 @@
 <template>
   <v-app>
-    <customLogin v-if="!$store.state.isConnected"></customLogin>
-    <div v-else>
+    <div>
       <customHeader title='Home'>
       </customHeader>
       <v-app-bar
@@ -112,14 +111,12 @@
 
 <script>
 import customHeader from '../components/CustomHeader.vue'
-import customLogin from '../components/CustomLogin.vue'
 
 export default {
   name: 'Home',
 
   components: {
-    customHeader,
-    customLogin
+    customHeader
   },
   data: () => ({
     ventes: [],
@@ -144,8 +141,23 @@ export default {
     selectedVendeurs: []
   }),
   methods: {
-    getVentes () {
-      fetch('http://localhost:8080/api/home/',
+    getVentesDirector () {
+      fetch('http://localhost:8080/api/home/directeur',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(response => response.json())
+        .then(data => {
+          data.forEach(el => {
+            this.defaultVentes.push(el)
+            this.ventes.push(el)
+          })
+        })
+    },
+    getVentesManager () {
+      fetch('http://localhost:8080/api/home/manager/' + this.$store.state.utilisateur.regId.id,
         {
           method: 'GET',
           headers: {
@@ -188,6 +200,18 @@ export default {
         })
     },
     filters () {
+      const regionsId = []
+      const vendeursId = []
+      console.log(this.dates)
+
+      this.selectedRegions.forEach(region => {
+        regionsId.push(region.id)
+      })
+
+      this.selectedVendeurs.forEach(vendeur => {
+        vendeursId.push(vendeur.id)
+      })
+
       fetch('http://localhost:8080/api/home/filtre',
         {
           method: 'POST',
@@ -195,8 +219,10 @@ export default {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            regions: this.selectedRegions,
-            vendeurs: this.selectedVendeurs
+            regions: regionsId,
+            vendeurs: vendeursId,
+            dateDebut: this.dates[0],
+            dateFin: this.dates[1]
           })
         }).then(response => response.json())
         .then(data => {
@@ -208,9 +234,15 @@ export default {
   },
   mounted () {
     if (this.$store.state.isConnected) {
-      this.getVentes()
+      if (this.$store.state.fonction === 'directeur') {
+        this.getVentesDirector()
+      } else {
+        this.getVentesManager()
+      }
       this.getRegions()
       this.getVendeurs()
+    } else {
+      this.$router.push('/')
     }
   }
 }
