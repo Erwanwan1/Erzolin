@@ -41,5 +41,5 @@ public class Manager {
     
     @OneToOne()
     @JoinColumn(name="uti_id")
-    private Utilisateur utiReg;
+    private Utilisateur utiId;
 }
