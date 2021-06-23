@@ -66,7 +66,29 @@ public class HomeRestController {
 
     @PostMapping("/filtre")
     public List<Vente> getListeVentesFiltrer(@RequestBody Filtre filtres) {
-        return this.daoVente.findByRegIdIdInAndVenIdIdInAndDateFacturationBetween(filtres.getRegions(), filtres.getVendeurs(), filtres.getDateDebut(), filtres.getDateFin());
+        List<Vente> ventes = new ArrayList<Vente>();
+        if((filtres.getDateDebut() == null || filtres.getDateFin() == null) && filtres.getVendeurs().size() == 0){
+            ventes = this.daoVente.findByRegIdIdIn(filtres.getRegions());
+        }
+        else if((filtres.getDateDebut() == null || filtres.getDateFin() == null) && filtres.getRegions().size() == 0){
+            ventes = this.daoVente.findByVenIdIdIn(filtres.getVendeurs());
+        }
+        else if(filtres.getRegions().size() == 0 && filtres.getVendeurs().size() == 0){
+            ventes = this.daoVente.findByDateFacturationBetween(filtres.getDateDebut(), filtres.getDateFin());
+        }
+        else if(filtres.getRegions().size() == 0){
+            ventes = this.daoVente.findByVenIdIdInAndDateFacturationBetween(filtres.getVendeurs(), filtres.getDateDebut(), filtres.getDateFin());
+        }
+        else if(filtres.getVendeurs().size() == 0){
+            ventes = this.daoVente.findByRegIdIdInAndDateFacturationBetween(filtres.getRegions(), filtres.getDateDebut(), filtres.getDateFin())
+        } 
+        else if(filtres.getDateDebut() == null || filtres.getDateFin() == null){
+            ventes = this.daoVente.findByRegIdIdInAndVenIdIdIn(filtres.getRegions(), filtres.getVendeurs());
+        }       
+        else{
+            ventes =  this.daoVente.findByRegIdIdInAndVenIdIdInAndDateFacturationBetween(filtres.getRegions(), filtres.getVendeurs(), filtres.getDateDebut(), filtres.getDateFin());
+        }
+        return ventes;
     }
     
 }

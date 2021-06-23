@@ -37,6 +37,7 @@
                   range
                 ></v-date-picker>
                 <v-autocomplete
+                v-if="$store.state.fonction == 'directeur'"
                   v-model="selectedRegions"
                   :items="regions"
                   item-text="nom"
@@ -202,7 +203,7 @@ export default {
     filters () {
       const regionsId = []
       const vendeursId = []
-
+      var dateTemp = ''
       this.selectedRegions.forEach(region => {
         regionsId.push(region.id)
       })
@@ -210,8 +211,15 @@ export default {
       this.selectedVendeurs.forEach(vendeur => {
         vendeursId.push(vendeur.id)
       })
-
-      fetch('http://10.116.21.58:8080/api/home/filtre',
+      if (this.dates[0] < this.dates[1]) {
+        dateTemp = this.dates[1]
+        this.dates[1] = this.dates[0]
+        this.dates[0] = dateTemp
+      }
+      if (this.$store.state.fonction === 'manager') {
+        regionsId[0] = this.$store.state.utilisateur.regId.id
+      }
+      fetch('http:///10.116.21.58:8080/api/home/filtre',
         {
           method: 'POST',
           headers: {

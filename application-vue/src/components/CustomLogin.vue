@@ -7,6 +7,23 @@
         <input type="password" class="box-input" name="password" placeholder=" Mot de passe" v-model="password" required="">
         <input type="submit" value="Connexion " name="submit" class="box-button" accesskey="13" @click="verifyConnexion();">
     </div>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="#cf2084"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -17,7 +34,10 @@ export default {
 
   data: () => ({
     email: '',
-    password: ''
+    password: '',
+    timeout: 5000,
+    snackbar: true,
+    text: 'Attention! rafraîchir la page entrainera une déconnexion !'
   }),
   components: {
   },
