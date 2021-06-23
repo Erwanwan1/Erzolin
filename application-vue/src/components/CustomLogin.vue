@@ -45,7 +45,7 @@ export default {
     verifyConnexion () {
       this.$store.state.isConnected = false
 
-      fetch('http://10.116.21.58:8080/api/login/',
+      fetch('http://localhost:8080/api/login/',
         {
           method: 'POST',
           headers: {
@@ -60,7 +60,7 @@ export default {
         .then(this.rediriger)
     },
     getFonction () {
-      return fetch('http://10.116.21.58:8080//api/login/fonction',
+      return fetch('http://localhost:8080//api/login/fonction',
         {
           method: 'POST',
           headers: {

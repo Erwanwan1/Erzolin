@@ -143,7 +143,7 @@ export default {
   }),
   methods: {
     getVentesDirector () {
-      fetch('http://10.116.21.58:8080/api/home/directeur',
+      fetch('http://localhost:8080/api/home/directeur',
         {
           method: 'GET',
           headers: {
@@ -158,7 +158,7 @@ export default {
         })
     },
     getVentesManager () {
-      fetch('http://10.116.21.58:8080/api/home/manager/' + this.$store.state.utilisateur.regId.id,
+      fetch('http://localhost:8080/api/home/manager/' + this.$store.state.utilisateur.regId.id,
         {
           method: 'GET',
           headers: {
@@ -173,7 +173,7 @@ export default {
         })
     },
     getRegions () {
-      fetch('http://10.116.21.58:8080/api/home/region',
+      fetch('http://localhost:8080/api/home/region',
         {
           method: 'GET',
           headers: {
@@ -187,7 +187,7 @@ export default {
         })
     },
     getVendeurs () {
-      fetch('http://10.116.21.58:8080/api/home/vendeur',
+      fetch('http://localhost:8080/api/home/vendeur',
         {
           method: 'GET',
           headers: {
@@ -203,7 +203,9 @@ export default {
     filters () {
       const regionsId = []
       const vendeursId = []
+      this.ventes = []
       var dateTemp = ''
+
       this.selectedRegions.forEach(region => {
         regionsId.push(region.id)
       })
@@ -219,24 +221,28 @@ export default {
       if (this.$store.state.fonction === 'manager') {
         regionsId[0] = this.$store.state.utilisateur.regId.id
       }
-      fetch('http:///10.116.21.58:8080/api/home/filtre',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            regions: regionsId,
-            vendeurs: vendeursId,
-            dateDebut: this.dates[0],
-            dateFin: this.dates[1]
+      if (regionsId.length !== 0 && vendeursId.length !== 0 && (this.dates[0] == null || this.dates[1] == null)) {
+        fetch('http://localhost:8080/api/home/filtre',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              regions: regionsId,
+              vendeurs: vendeursId,
+              dateDebut: this.dates[0],
+              dateFin: this.dates[1]
+            })
+          }).then(response => response.json())
+          .then(data => {
+            data.forEach(el => {
+              this.ventes.push(el)
+            })
           })
-        }).then(response => response.json())
-        .then(data => {
-          data.forEach(el => {
-            this.ventes.push(el)
-          })
-        })
+      } else {
+        this.ventes = this.defaultVentes
+      }
     }
   },
   mounted () {

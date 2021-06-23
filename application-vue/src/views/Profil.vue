@@ -103,7 +103,7 @@ export default {
 
   methods: {
     getUtilisateur () {
-      fetch('http://10.116.21.58:8080/api/profil/' + this.$store.state.utilisateur.utiId.id,
+      fetch('http://localhost:8080/api/profil/' + this.$store.state.utilisateur.utiId.id,
         {
           method: 'GET',
           headers: {
@@ -122,7 +122,7 @@ export default {
     },
     confirm () {
       this.alert = false
-      fetch('http://10.116.21.58:8080/api/profil/',
+      fetch('http://localhost:8080/api/profil/',
         {
           method: 'POST',
           headers: {
