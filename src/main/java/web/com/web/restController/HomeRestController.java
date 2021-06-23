@@ -80,7 +80,7 @@ public class HomeRestController {
             ventes = this.daoVente.findByVenIdIdInAndDateFacturationBetween(filtres.getVendeurs(), filtres.getDateDebut(), filtres.getDateFin());
         }
         else if(filtres.getVendeurs().size() == 0){
-            ventes = this.daoVente.findByRegIdIdInAndDateFacturationBetween(filtres.getRegions(), filtres.getDateDebut(), filtres.getDateFin())
+            ventes = this.daoVente.findByRegIdIdInAndDateFacturationBetween(filtres.getRegions(), filtres.getDateDebut(), filtres.getDateFin());
         } 
         else if(filtres.getDateDebut() == null || filtres.getDateFin() == null){
             ventes = this.daoVente.findByRegIdIdInAndVenIdIdIn(filtres.getRegions(), filtres.getVendeurs());
