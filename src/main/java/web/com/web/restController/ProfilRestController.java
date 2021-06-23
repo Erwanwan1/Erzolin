@@ -30,8 +30,7 @@ public class ProfilRestController {
 
     @PostMapping("")
     public void saveUtilisateur(@RequestBody Utilisateur utilisateur) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        utilisateur.setMdp(md.digest((utilisateur.getMdp() + "You should mot de passe").getBytes()).toString());
+        utilisateur.setMdp(utilisateur.getMdp());
         this.daoUtilisateur.save(utilisateur);
     }
 }

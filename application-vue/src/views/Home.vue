@@ -142,7 +142,7 @@ export default {
   }),
   methods: {
     getVentesDirector () {
-      fetch('http://localhost:8080/api/home/directeur',
+      fetch('http://10.116.21.58:8080/api/home/directeur',
         {
           method: 'GET',
           headers: {
@@ -157,7 +157,7 @@ export default {
         })
     },
     getVentesManager () {
-      fetch('http://localhost:8080/api/home/manager/' + this.$store.state.utilisateur.regId.id,
+      fetch('http://10.116.21.58:8080/api/home/manager/' + this.$store.state.utilisateur.regId.id,
         {
           method: 'GET',
           headers: {
@@ -172,7 +172,7 @@ export default {
         })
     },
     getRegions () {
-      fetch('http://localhost:8080/api/home/region',
+      fetch('http://10.116.21.58:8080/api/home/region',
         {
           method: 'GET',
           headers: {
@@ -186,7 +186,7 @@ export default {
         })
     },
     getVendeurs () {
-      fetch('http://localhost:8080/api/home/vendeur',
+      fetch('http://10.116.21.58:8080/api/home/vendeur',
         {
           method: 'GET',
           headers: {
@@ -202,7 +202,6 @@ export default {
     filters () {
       const regionsId = []
       const vendeursId = []
-      console.log(this.dates)
 
       this.selectedRegions.forEach(region => {
         regionsId.push(region.id)
@@ -212,7 +211,7 @@ export default {
         vendeursId.push(vendeur.id)
       })
 
-      fetch('http://localhost:8080/api/home/filtre',
+      fetch('http://10.116.21.58:8080/api/home/filtre',
         {
           method: 'POST',
           headers: {
