@@ -213,7 +213,7 @@ export default {
       this.selectedVendeurs.forEach(vendeur => {
         vendeursId.push(vendeur.id)
       })
-      if (this.dates[0] < this.dates[1]) {
+      if (this.dates[0] > this.dates[1]) {
         dateTemp = this.dates[1]
         this.dates[1] = this.dates[0]
         this.dates[0] = dateTemp
@@ -221,7 +221,7 @@ export default {
       if (this.$store.state.fonction === 'manager') {
         regionsId[0] = this.$store.state.utilisateur.regId.id
       }
-      if (regionsId.length !== 0 && vendeursId.length !== 0 && (this.dates[0] == null || this.dates[1] == null)) {
+      if (regionsId.length !== 0 || vendeursId.length !== 0 || (this.dates[0] !== null && this.dates[1] !== null)) {
         fetch('http://localhost:8080/api/home/filtre',
           {
             method: 'POST',
